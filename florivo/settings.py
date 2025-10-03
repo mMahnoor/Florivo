@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     "phonenumber_field",
+    'django_filters',
     "users",
     "catalog",
     "cart",
