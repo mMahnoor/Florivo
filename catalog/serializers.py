@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from decimal import Decimal
 from catalog.models import Category, Plant, PlantImage
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -19,7 +18,7 @@ class PlantImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'image']
 
 class PlantSerializer(serializers.ModelSerializer):
-    plant_images = PlantImageSerializer(many=True)
+    plant_images = PlantImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Plant
@@ -30,3 +29,26 @@ class PlantSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Price could not be negative')
         return price
 
+# class CatalogItemCreateSerializer(serializers.ModelSerializer):
+#     images = serializers.ListField(
+#         child=serializers.ImageField(),
+#         write_only=True,
+#         required=False
+#     )
+
+#     class Meta:
+#         model = Plant
+#         fields = ["title", "description", "price", "category", "images"]
+
+#     def validate_images(self, value):
+#         if len(value) > 6:
+#             raise serializers.ValidationError("You can upload up to 6 images.")
+#         return value
+
+#     def create(self, validated_data):
+#         images = validated_data.pop("images", [])
+#         catalogItem = Plant.objects.create(**validated_data)
+#         for img in images:
+#             PlantImage.objects.create(listing=catalogItem, image=img)
+#         return catalogItem
+    

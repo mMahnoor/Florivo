@@ -29,8 +29,13 @@ class PlantViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = PlantFilter
     pagination_class = DefaultPagination
-    search_fields = ['name', 'description']
-    ordering_fields = ['name', 'price']
+    search_fields = ['title', 'description']
+    ordering_fields = ['title', 'price']
+
+    # def get_serializer_class(self):
+    #     if self.action in ["create", "update", "partial_update"]:
+    #         return CatalogItemCreateSerializer
+    #     return PlantSerializer
     
     def list(self, request, *args, **kwargs):
         """Retrive all the plants list"""
@@ -44,7 +49,9 @@ class PlantImageViewSet(ModelViewSet):
     serializer_class = PlantImageSerializer
 
     def get_queryset(self):
+        print("from getQ img: ", self.kwargs)
         return PlantImage.objects.filter(plant_id=self.kwargs.get('plant_pk'))
 
     def perform_create(self, serializer):
+        print("from getQ img: ", self.kwargs)
         serializer.save(plant_id=self.kwargs.get('plant_pk'))

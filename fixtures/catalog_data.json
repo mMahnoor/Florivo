@@ -1,0 +1,126 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Roses",
+      "description": "Classic roses in various colors."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Tulips",
+      "description": "Bright tulips, perfect for spring."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Orchids",
+      "description": "Exotic orchids for special occasions."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Sunflowers",
+      "description": "Cheerful and vibrant sunflowers."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+      "name": "Mixed Bouquets",
+      "description": "Beautifully arranged flower combinations."
+    }
+  },
+  {
+    "model": "catalog.plant",
+    "pk": 1,
+    "fields": {
+      "title": "Red Rose Bouquet",
+      "description": "A dozen fresh red roses wrapped elegantly.",
+      "price": "25.00",
+      "category": 1,
+      "stock": 20,
+      "seller": 1,
+      "created_at": "2025-10-01T10:00:00Z",
+      "updated_at": "2025-10-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.plant",
+    "pk": 2,
+    "fields": {
+      "title": "Yellow Tulip Vase",
+      "description": "10 bright yellow tulips in a glass vase.",
+      "price": "18.50",
+      "category": 2,
+      "stock": 15,
+      "seller": 2,
+      "created_at": "2025-08-01T11:00:00Z",
+      "updated_at": "2025-08-01T11:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.plant",
+    "pk": 3,
+    "fields": {
+      "title": "White Orchid Pot",
+      "description": "Elegant potted white orchid plant.",
+      "price": "30.00",
+      "category": 3,
+      "stock": 10,
+      "seller": 1,
+      "created_at": "2025-08-01T06:00:00Z",
+      "updated_at": "2025-08-01T06:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.plant",
+    "pk": 4,
+    "fields": {
+      "title": "Sunflower Bundle",
+      "description": "5 tall sunflowers tied with a rustic ribbon.",
+      "price": "15.00",
+      "category": 4,
+      "stock": 25,
+      "seller": 3,
+      "created_at": "2025-06-01T11:00:00Z",
+      "updated_at": "2025-06-01T11:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.plant",
+    "pk": 5,
+    "fields": {
+      "title": "Spring Mix Bouquet",
+      "description": "Mixed roses, tulips, and lilies in a hand-tied bouquet.",
+      "price": "40.00",
+      "category": 5,
+      "stock": 12,
+      "seller": 2,
+      "created_at": "2025-08-01T11:00:00Z",
+      "updated_at": "2025-08-01T11:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.plant",
+    "pk": 6,
+    "fields": {
+      "title": "Pink Rose Box",
+      "description": "20 pink roses in a luxury flower box.",
+      "price": "50.00",
+      "category": 1,
+      "stock": 8,
+      "seller": 1,
+      "created_at": "2025-06-01T11:00:00Z",
+      "updated_at": "2025-06-01T11:00:00Z"
+    }
+  }
+]
