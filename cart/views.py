@@ -17,7 +17,7 @@ class CartViewSet(ListModelMixin, CreateModelMixin, RetrieveModelMixin, DestroyM
     def get_queryset(self):
         # if getattr(self, 'swagger_fake_view', False):
         #     return Cart.objects.none()
-        return Cart.objects.prefetch_related('items__plant').filter(user=self.request.user)
+        return Cart.objects.prefetch_related('items__flower').filter(user=self.request.user)
 
 
 class CartItemViewSet(ModelViewSet):
@@ -38,4 +38,4 @@ class CartItemViewSet(ModelViewSet):
         return {'cart_id': self.kwargs.get('cart_pk')}
 
     def get_queryset(self):
-        return CartItem.objects.select_related('plant').filter(cart_id=self.kwargs.get('cart_pk'))
+        return CartItem.objects.select_related('flower').filter(cart_id=self.kwargs.get('cart_pk'))

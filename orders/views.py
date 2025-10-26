@@ -15,7 +15,7 @@ class OrderViewset(viewsets.ModelViewSet):
     def cancel(self, request, pk=None):
         order = self.get_object()
         OrderService.cancel_order(order=order, user=request.user)
-        return Response({'status': 'Order canceled'})
+        return Response({'status': 'Order cancelled'})
 
     @action(detail=True, methods=['patch'])
     def update_status(self, request, pk=None):
@@ -49,5 +49,5 @@ class OrderViewset(viewsets.ModelViewSet):
         # if getattr(self, 'swagger_fake_view', False):
         #     return Order.objects.none()
         if self.request.user.is_staff:
-            return Order.objects.prefetch_related('items__plant').all()
-        return Order.objects.prefetch_related('items__plant').filter(user=self.request.user)
+            return Order.objects.prefetch_related('items__flower').all()
+        return Order.objects.prefetch_related('items__flower').filter(user=self.request.user)

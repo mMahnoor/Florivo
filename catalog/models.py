@@ -12,10 +12,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-class Plant(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plants')
+class Flower(models.Model):
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='flowers')
     title = models.CharField(max_length=150)
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL, related_name='plants')
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL, related_name='flowers')
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=0)
@@ -26,9 +26,9 @@ class Plant(models.Model):
     def __str__(self): 
         return self.title
 
-class PlantImage(models.Model):
-    plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name="plant_images")
+class FlowerImage(models.Model):
+    flower = models.ForeignKey(Flower, on_delete=models.CASCADE, related_name="flower_images")
     image = models.ImageField(upload_to="media/flowers/")
 
     def __str__(self): 
-        return f"Image for {self.plant.title}"
+        return f"Image for {self.flower.title}"

@@ -1,5 +1,5 @@
 from django.db import models
-from catalog.models import Plant
+from catalog.models import Flower
 from uuid import uuid4
 from django.contrib.auth import get_user_model
 
@@ -12,13 +12,13 @@ class Order(models.Model):
     READY_TO_SHIP = 'Ready To Ship'
     SHIPPED = 'Shipped'
     DELIVERED = 'Delivered'
-    CANCELED = 'Canceled'
+    CANCELLED = 'Cancelled'
     STATUS_CHOICES = [
         (NOT_PAID, 'Not Paid'),
         (READY_TO_SHIP, 'Ready To Ship'),
         (SHIPPED, 'Shipped'),
         (DELIVERED, 'Delivered'),
-        (CANCELED, 'Canceled')
+        (CANCELLED, 'Cancelled')
     ]
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(
@@ -36,10 +36,10 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name="items")
-    plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
+    flower = models.ForeignKey(Flower, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=12, decimal_places=2)
 
     def __str__(self):
-        return f"{self.quantity} x {self.plant.title}"
+        return f"{self.quantity} x {self.flower.title}"

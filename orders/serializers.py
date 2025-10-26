@@ -32,11 +32,11 @@ class CreateOrderSerializer(serializers.Serializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    plant = SimpleCatalogItemSerializer()
+    flower = SimpleCatalogItemSerializer()
 
     class Meta:
         model = OrderItem
-        fields = ['id', 'plant', 'price', 'quantity', 'total_price']
+        fields = ['id', 'flower', 'price', 'quantity', 'total_price']
 
 
 class UpdateOrderSerializer(serializers.ModelSerializer):

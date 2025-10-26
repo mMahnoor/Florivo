@@ -9,9 +9,9 @@ class OrderService:
     def create_order(user_id, cart_id):
         with transaction.atomic():
             cart = Cart.objects.get(pk=cart_id)
-            cart_items = cart.items.select_related('plant').all()
+            cart_items = cart.items.select_related('flower').all()
 
-            total_price = sum([item.plant.price *
+            total_price = sum([item.flower.price *
                                item.quantity for item in cart_items])
 
             order = Order.objects.create(
@@ -20,10 +20,10 @@ class OrderService:
             order_items = [
                 OrderItem(
                     order=order,
-                    plant=item.plant,
-                    price=item.plant.price,
+                    flower=item.flower,
+                    price=item.flower.price,
                     quantity=item.quantity,
-                    total_price=item.plant.price * item.quantity
+                    total_price=item.flower.price * item.quantity
                 )
                 for item in cart_items
             ]
@@ -37,7 +37,7 @@ class OrderService:
     @staticmethod
     def cancel_order(order, user):
         if user.is_staff:
-            order.status = Order.CANCELED
+            order.status = Order.CANCELLED
             order.save()
             return order
 
@@ -48,6 +48,6 @@ class OrderService:
         if order.status == Order.DELIVERED:
             raise ValidationError({"detail": "You can not cancel this order"})
 
-        order.status = Order.CANCELED
+        order.status = Order.CANCELLED
         order.save()
         return order

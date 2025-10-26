@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from catalog.models import Plant
+from catalog.models import Flower
 from uuid import uuid4
 from django.contrib.auth import get_user_model
 
@@ -21,11 +21,11 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(
         Cart, on_delete=models.CASCADE, related_name="items")
-    plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
+    flower = models.ForeignKey(Flower, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 
     class Meta:
-        unique_together = [['cart', 'plant']]
+        unique_together = [['cart', 'flower']]
 
     def __str__(self):
-        return f"{self.quantity} x {self.plant.title}"
+        return f"{self.quantity} x {self.flower.title}"

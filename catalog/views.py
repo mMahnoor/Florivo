@@ -4,19 +4,19 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
 
-from catalog.models import Category, Plant, PlantImage
-from catalog.serializers import CategorySerializer, PlantImageSerializer, PlantSerializer
-from catalog.filters import PlantFilter
+from catalog.models import Category, Flower, FlowerImage
+from catalog.serializers import CategorySerializer, FlowerImageSerializer, FlowerSerializer
+from catalog.filters import FlowerFilter
 from catalog.paginations import DefaultPagination
 
 # Create your views here.
 
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.annotate(
-        plant_count=Count('plants')).all()
+        flower_count=Count('flowers')).all()
     serializer_class = CategorySerializer
 
-class PlantViewSet(ModelViewSet):
+class FlowerViewSet(ModelViewSet):
     """
     API endpoint for managing plants catalog
      - Allows authenticated admin to create, update, and delete a catalog item
@@ -24,10 +24,10 @@ class PlantViewSet(ModelViewSet):
      - Support searching by name, description, and category
      - Support ordering by price and name
     """
-    queryset = Plant.objects.all()
-    serializer_class = PlantSerializer
+    queryset = Flower.objects.all()
+    serializer_class = FlowerSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_class = PlantFilter
+    filterset_class = FlowerFilter
     pagination_class = DefaultPagination
     search_fields = ['title', 'description']
     ordering_fields = ['title', 'price']
@@ -38,20 +38,20 @@ class PlantViewSet(ModelViewSet):
     #     return PlantSerializer
     
     def list(self, request, *args, **kwargs):
-        """Retrive all the plants list"""
+        """Retrive all the flowers list"""
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         """Only authenticated admin can create a new catalog item"""
         return super().create(request, *args, **kwargs)
     
-class PlantImageViewSet(ModelViewSet):
-    serializer_class = PlantImageSerializer
+class FlowerImageViewSet(ModelViewSet):
+    serializer_class = FlowerImageSerializer
 
     def get_queryset(self):
-        print("from getQ img: ", self.kwargs)
-        return PlantImage.objects.filter(plant_id=self.kwargs.get('plant_pk'))
+        # print("from getQ img: ", self.kwargs)
+        return FlowerImage.objects.filter(flower_id=self.kwargs.get('flower_pk'))
 
     def perform_create(self, serializer):
-        print("from getQ img: ", self.kwargs)
-        serializer.save(plant_id=self.kwargs.get('plant_pk'))
+        # print("from getQ img: ", self.kwargs)
+        serializer.save(flower_id=self.kwargs.get('flower_pk'))

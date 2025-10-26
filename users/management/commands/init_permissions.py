@@ -18,6 +18,24 @@ PERMISSIONS = [
     # Permissions
     {"name": "Read Permission", "code": "permission.read"},
 
+    # Catalog
+    {"name": "Create Catalog Item", "code": "catalog.create"},
+    {"name": "Read Catalog Item", "code": "catalog.read"},
+    {"name": "Update Catalog Item", "code": "catalog.update"},
+    {"name": "Delete Catalog Item", "code": "catalog.delete"},
+
+    # Cart
+    {"name": "Create Cart", "code": "cart.create"},
+    {"name": "Read Cart", "code": "cart.read"},
+    {"name": "Update Cart", "code": "cart.update"},
+    {"name": "Delete Cart", "code": "cart.delete"},
+
+    # Orders
+    {"name": "Create Order", "code": "order.create"},
+    {"name": "Read Order", "code": "order.read"},
+    {"name": "Update Order", "code": "order.update"},
+    {"name": "Delete Order", "code": "order.delete"},
+
 ]
 
 class Command(BaseCommand):

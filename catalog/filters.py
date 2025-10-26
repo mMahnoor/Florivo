@@ -1,10 +1,10 @@
 from django_filters.rest_framework import FilterSet
-from catalog.models import Plant
+from catalog.models import Flower
 
 
-class PlantFilter(FilterSet):
+class FlowerFilter(FilterSet):
     class Meta:
-        model = Plant
+        model = Flower
         fields = {
             'category_id': ['exact'],
             'price': ['gt', 'lt']

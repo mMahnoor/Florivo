@@ -1,27 +1,27 @@
 from rest_framework import serializers
 
 from cart.models import Cart, CartItem
-from catalog.models import Plant
+from catalog.models import Flower
 
 class SimpleCatalogItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Plant
+        model = Flower
         fields = ['id', 'title', 'price']
 
 class AddCartItemSerializer(serializers.ModelSerializer):
-    plant_id = serializers.IntegerField()
+    flower_id = serializers.IntegerField()
 
     class Meta:
         model = CartItem
-        fields = ['id', 'plant_id', 'quantity']
+        fields = ['id', 'flower_id', 'quantity']
 
     def save(self, **kwargs):
         cart_id = self.context['cart_id']
-        plant_id = self.validated_data['plant_id']
+        flower_id = self.validated_data['flower_id']
         quantity = self.validated_data['quantity']
 
         try:
-            cart_item = CartItem.objects.get(cart_id=cart_id, plant_id=plant_id)
+            cart_item = CartItem.objects.get(cart_id=cart_id, flower_id=flower_id)
             cart_item.quantity += quantity
             self.instance = cart_item.save()
         except CartItem.DoesNotExist:
@@ -30,8 +30,8 @@ class AddCartItemSerializer(serializers.ModelSerializer):
 
         return self.instance
 
-    def validate_product_id(self, value):
-        if not Plant.objects.filter(pk=value).exists():
+    def validate_flower_id(self, value):
+        if not Flower.objects.filter(pk=value).exists():
             raise serializers.ValidationError(f"Catalog item with id {value} does not exists")
         return value
 
@@ -43,15 +43,15 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    plant = SimpleCatalogItemSerializer()
+    flower = SimpleCatalogItemSerializer()
     total_price = serializers.SerializerMethodField(method_name='get_total_price')
 
     class Meta:
         model = CartItem
-        fields = ['id', 'plant', 'quantity', 'plant', 'total_price']
+        fields = ['id', 'flower', 'quantity', 'flower', 'total_price']
 
     def get_total_price(self, cart_item: CartItem):
-        return cart_item.quantity * cart_item.plant.price
+        return cart_item.quantity * cart_item.flower.price
     
 class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)
@@ -63,4 +63,4 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ['user']
 
     def get_total_price(self, cart: Cart):
-        return sum([item.plant.price * item.quantity for item in cart.items.all()])
+        return sum([item.flower.price * item.quantity for item in cart.items.all()])

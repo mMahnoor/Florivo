@@ -40,7 +40,7 @@
     }
   },
   {
-    "model": "catalog.plant",
+    "model": "catalog.flower",
     "pk": 1,
     "fields": {
       "title": "Red Rose Bouquet",
@@ -54,7 +54,7 @@
     }
   },
   {
-    "model": "catalog.plant",
+    "model": "catalog.flower",
     "pk": 2,
     "fields": {
       "title": "Yellow Tulip Vase",
@@ -68,11 +68,11 @@
     }
   },
   {
-    "model": "catalog.plant",
+    "model": "catalog.flower",
     "pk": 3,
     "fields": {
       "title": "White Orchid Pot",
-      "description": "Elegant potted white orchid plant.",
+      "description": "Elegant potted white orchid flower.",
       "price": "30.00",
       "category": 3,
       "stock": 10,
@@ -82,7 +82,7 @@
     }
   },
   {
-    "model": "catalog.plant",
+    "model": "catalog.flower",
     "pk": 4,
     "fields": {
       "title": "Sunflower Bundle",
@@ -96,7 +96,7 @@
     }
   },
   {
-    "model": "catalog.plant",
+    "model": "catalog.flower",
     "pk": 5,
     "fields": {
       "title": "Spring Mix Bouquet",
@@ -110,7 +110,7 @@
     }
   },
   {
-    "model": "catalog.plant",
+    "model": "catalog.flower",
     "pk": 6,
     "fields": {
       "title": "Pink Rose Box",
