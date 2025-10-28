@@ -1,0 +1,16 @@
+Hi {{ user.first_name }},
+
+Thank you for your order!
+
+Your order #{{ order.id }} has been placed successfully.
+
+Order Summary:
+{% for item in order_items %}
+- {{ item.flower.title }} × {{ item.quantity }} — ${{ item.flower.price }}
+{% endfor %}
+
+Total: ${{ total }}
+
+We'll notify you once your flowers are ready to deliver.
+
+— The Florivo Team 🌷

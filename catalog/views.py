@@ -8,6 +8,7 @@ from catalog.models import Category, Flower, FlowerImage
 from catalog.serializers import CategorySerializer, FlowerImageSerializer, FlowerSerializer
 from catalog.filters import FlowerFilter
 from catalog.paginations import DefaultPagination
+from api.permissions import IsSellerOrAdminOrReadOnly, IsAdmin
 
 # Create your views here.
 
@@ -15,6 +16,7 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.annotate(
         flower_count=Count('flowers')).all()
     serializer_class = CategorySerializer
+    permission_classes = [IsSellerOrAdminOrReadOnly]
 
 class FlowerViewSet(ModelViewSet):
     """
@@ -31,6 +33,7 @@ class FlowerViewSet(ModelViewSet):
     pagination_class = DefaultPagination
     search_fields = ['title', 'description']
     ordering_fields = ['title', 'price']
+    permission_classes = [IsSellerOrAdminOrReadOnly]
 
     # def get_serializer_class(self):
     #     if self.action in ["create", "update", "partial_update"]:
@@ -42,11 +45,16 @@ class FlowerViewSet(ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        """Only authenticated admin can create a new catalog item"""
+        """Only authenticated seller can create a new catalog item"""
         return super().create(request, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        """Automatically assign the current user in the seller field."""
+        serializer.save(seller=self.request.user)
     
 class FlowerImageViewSet(ModelViewSet):
     serializer_class = FlowerImageSerializer
+    permission_classes = [IsSellerOrAdminOrReadOnly]
 
     def get_queryset(self):
         # print("from getQ img: ", self.kwargs)

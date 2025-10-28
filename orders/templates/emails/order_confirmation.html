@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmation</title>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      background: #ffffff;
+      margin: 30px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #85002eff;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .content {  
+      padding: 25px;
+    }
+    .order-info {
+      background: #f9f9f9;
+      border-left: 4px solid #85002eff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .footer {
+      background-color: #f1f1f1;
+      color: #555;
+      text-align: center;
+      font-size: 14px;
+      padding: 15px;
+    }
+    .button {
+      display: inline-block;
+      background-color: #85002eff;
+      color: white !important;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>🌸 Florivo 🌸</h2>
+      <p>Thank you for your purchase!</p>
+    </div>
+    <div class="content">
+      <p>Hi <strong>{{ order.user.first_name|default:order.user.username }}</strong>,</p>
+      <p>Your order has been placed successfully. Here are your order details:</p>
+
+      <div class="order-info">
+        <p><strong>Order ID:</strong> #{{ order.id }}</p>
+        {% for item in order_items %}
+          <p><strong>{{ forloop.counter }}.</strong> {{ item.flower.title }}</p>
+          <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+          <p><strong>Unit Price:</strong> ${{ item.flower.price }}</p>
+        {% endfor %}
+        <br>
+        <p><strong>Total Price:</strong> ${{ total }}</p>
+        <p><strong>Status:</strong> {{ order.status }}</p>
+      </div>
+
+      <p>We’ll notify you once your flowers are ready for delivery 💐</p>
+      <a href="#" class="button">View My Order</a>
+    </div>
+
+    <div class="footer">
+      <p>Thank you for shopping with <strong>Florivo</strong> 🌷</p>
+      <p>Need help? Contact us at <a href="mailto:support@florivo.com">support@florivo.com</a></p>
+    </div>
+  </div>
+</body>
+</html>
