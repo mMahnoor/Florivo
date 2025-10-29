@@ -5,30 +5,52 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
+class EmailService:
+    @staticmethod
+    def send_order_confirmation_email(user, order):
+        """
+        Sends a styled HTML confirmation email to the user upon order placement.
+        """
+        
+        context = {
+            'user': user,
+            'order': order,
+            'order_items': order.items.all(),
+            'total': order.total_price,
+        }
 
-def send_order_confirmation_email(user, order):
-    """
-    Sends a styled HTML confirmation email to the user upon order placement.
-    """
-    
-    context = {
-        'user': user,
-        'order': order,
-        'order_items': order.items.all(),
-        'total': order.total_price,
-    }
+        text_content = render_to_string("emails/order_confirmation.txt", context)
+        html_content = render_to_string("emails/order_confirmation.html", context)
 
-    text_content = render_to_string("emails/order_confirmation.txt", context)
-    html_content = render_to_string("emails/order_confirmation.html", context)
+        email = EmailMultiAlternatives(
+            f"Order Confirmation - #{order.id}", # email subject
+            text_content, 
+            "florivo.zamtech@gmail.com", # from
+            [user.email] # to
+        )
+        email.attach_alternative(html_content, "text/html")
+        email.send()
 
-    email = EmailMultiAlternatives(
-        f"Order Confirmation - #{order.id}", # email subject
-        text_content, 
-        "florivo.zamtech@gmail.com", # from
-        [user.email] # to
-    )
-    email.attach_alternative(html_content, "text/html")
-    email.send()
+    @staticmethod
+    def send_status_update_email(user, order):
+        print(f"Sending status update email to {user.email} for order {order.id}")
+        context = {
+            'user': user,
+            'order': order,
+        }
+
+        text_content = render_to_string("emails/status_update.txt", context)
+        html_content = render_to_string("emails/status_update.html", context)
+
+        email = EmailMultiAlternatives(
+            f"Status Update For - #{order.id}", # email subject
+            text_content, 
+            "florivo.zamtech@gmail.com", # from
+            [user.email] # to
+        )
+        email.attach_alternative(html_content, "text/html")
+        email.send()
+
 
 class OrderService:
     @staticmethod

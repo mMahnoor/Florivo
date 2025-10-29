@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Order Confirmation</title>
+  <title>Order Status Update</title>
   <style>
     body {
       background-color: #f8f9fa;
@@ -25,7 +25,7 @@
       text-align: center;
       padding: 20px;
     }
-    .content {  
+    .content {
       padding: 25px;
     }
     .order-info {
@@ -58,31 +58,24 @@
   <div class="container">
     <div class="header">
       <h2>🌸 Florivo 🌸</h2>
-      <p>Thank you for your purchase!</p>
+      <p>Your Order Status Has Been Updated!</p>
     </div>
     <div class="content">
       <p>Hi <strong>{{ order.user.first_name|default:order.user.username }}</strong>,</p>
-      <p>Your order has been placed successfully. Here are your order details:</p>
+      <p>We wanted to let you know that your order’s status has been updated:</p>
 
       <div class="order-info">
         <p><strong>Order ID:</strong> #{{ order.id }}</p>
-        {% for item in order_items %}
-          <p><strong>{{ forloop.counter }}.</strong> {{ item.flower.title }}</p>
-          <p><strong>Quantity:</strong> {{ item.quantity }}</p>
-          <p><strong>Unit Price:</strong> ${{ item.flower.price }}</p>
-        {% endfor %}
-        <br>
-        <p><strong>Total Price:</strong> ${{ total }}</p>
-        <p><strong>Status:</strong> {{ order.status }}</p>
+        <p><strong>New Status:</strong> {{ order.status }}</p>
       </div>
 
-      <p>We’ll notify you once your flowers are ready for delivery 💐</p>
+      <p>You can check the latest details in your account.</p>
       <a href="#" class="button">View My Order</a>
     </div>
 
     <div class="footer">
       <p>Thank you for choosing <strong>Florivo</strong> 🌷</p>
-      <p>Need help? Contact us at <a href="mailto:support@florivo.com">support@florivo.com</a></p>
+      <p>Contact us at <a href="mailto:support@flowersell.com">support@florivo.com</a> for any inquiries.</p>
     </div>
   </div>
 </body>

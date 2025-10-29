@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from django.db import transaction
+
 from orders import serializers as order_serializers
 from orders.models import Order, OrderItem
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.decorators import action
-from orders.services import OrderService
-from rest_framework.response import Response
+from orders.services import OrderService, EmailService
 
 # Create your views here.
 class OrderViewset(viewsets.ModelViewSet):
@@ -24,6 +26,7 @@ class OrderViewset(viewsets.ModelViewSet):
             order, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        transaction.on_commit(lambda: EmailService.send_status_update_email(order.user, order))
         return Response({"status": f"Order status updated to {request.data['status']}"})
 
     def get_permissions(self):

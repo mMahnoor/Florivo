@@ -1,0 +1,16 @@
+Hi {{ user.first_name }},
+
+Your oder status has been updated!
+
+Your order #{{ order.id }} is {{ order.status }}.
+
+Order Summary:
+{% for item in order.items.all %}
+- {{ item.flower.title }} × {{ item.quantity }} — ${{ item.flower.price }}
+{% endfor %}
+
+Total: ${{ total }}
+
+Thank you for being patient and choosing florivo.
+
+— The Florivo Team 🌷
