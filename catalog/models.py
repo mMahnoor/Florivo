@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from catalog.validators import validate_file_size
 
 User = get_user_model()
 
@@ -28,7 +29,7 @@ class Flower(models.Model):
 
 class FlowerImage(models.Model):
     flower = models.ForeignKey(Flower, on_delete=models.CASCADE, related_name="flower_images")
-    image = models.ImageField(upload_to="media/flowers/")
+    image = models.ImageField(upload_to="media/flowers/", validators=[validate_file_size])
 
     def __str__(self): 
         return f"Image for {self.flower.title}"

@@ -8,7 +8,7 @@ from catalog.models import Category, Flower, FlowerImage
 from catalog.serializers import CategorySerializer, FlowerImageSerializer, FlowerSerializer
 from catalog.filters import FlowerFilter
 from catalog.paginations import DefaultPagination
-from api.permissions import IsSellerOrAdminOrReadOnly, IsAdmin
+from api.permissions import IsSellerOrAdminOrReadOnly
 
 # Create your views here.
 
