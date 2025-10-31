@@ -11,6 +11,14 @@ from orders.services import OrderService, EmailService
 
 # Create your views here.
 class OrderViewset(viewsets.ModelViewSet):
+    """
+    Manage Orders:
+    - Get all orders made by the logged in user
+    - Create a new order for a given cart
+    - Retrive a specific order by id
+    - Partially update status of a specific order by id
+    - Delete an order by id
+    """
     http_method_names = ['get', 'post', 'delete', 'patch', 'head', 'options']
 
     @action(detail=True, methods=['post'])
@@ -44,13 +52,13 @@ class OrderViewset(viewsets.ModelViewSet):
         return order_serializers.OrderSerializer
 
     def get_serializer_context(self):
-        # if getattr(self, 'swagger_fake_view', False):
-        #     return super().get_serializer_context()
+        if getattr(self, 'swagger_fake_view', False):
+            return super().get_serializer_context()
         return {'user_id': self.request.user.id, 'user': self.request.user}
 
     def get_queryset(self):
-        # if getattr(self, 'swagger_fake_view', False):
-        #     return Order.objects.none()
+        if getattr(self, 'swagger_fake_view', False):
+            return Order.objects.none()
         if self.request.user.is_staff:
             return Order.objects.prefetch_related('items__flower').all()
         return Order.objects.prefetch_related('items__flower').filter(user=self.request.user)

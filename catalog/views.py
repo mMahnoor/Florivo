@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
+from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
 
@@ -45,19 +46,44 @@ class FlowerViewSet(ModelViewSet):
     #     return PlantSerializer
     def get_queryset(self):
         return Flower.objects.prefetch_related('flower_images').all()
+    
+    @swagger_auto_schema(
+        operation_summary="Retrieve all flowers",
+        operation_description="Returns the the list of all flowers in the catalog."
+    )
     def list(self, request, *args, **kwargs):
         """Retrive all the flowers list"""
         return super().list(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_summary="Create a new flower listing",
+        # operation_description="Returns the the list of all flowers in the catalog."
+    )
     def create(self, request, *args, **kwargs):
-        """Only authenticated seller or admin can create a new catalog item"""
+        """Only authenticated seller or admin can create a new catalog item which is flower listing."""
         return super().create(request, *args, **kwargs)
     
     def perform_create(self, serializer):
         """Automatically assign the current user in the seller field."""
         serializer.save(seller=self.request.user)
+
+    @swagger_auto_schema(
+        operation_summary="Retrieve a specific flower instance",
+        operation_description="Returns the details of a specific flower instance."
+    )
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    
     
 class FlowerImageViewSet(ModelViewSet):
+    """
+    Manage Flower images:
+    - Get all images for a specific flower or catalog item
+    - Add images for a specific catalog item
+    - Retrive image of a flower by image id
+    - Update a specific image by id
+    - Delete an image by id
+    """
     serializer_class = FlowerImageSerializer
     permission_classes = [IsSellerOrAdminOrReadOnly]
 
