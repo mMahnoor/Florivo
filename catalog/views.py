@@ -31,7 +31,6 @@ class FlowerViewSet(ModelViewSet):
      - Support searching by name, description, and category
      - Support ordering by price and name
     """
-    queryset = Flower.objects.all()
     serializer_class = FlowerSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = FlowerFilter
@@ -44,7 +43,8 @@ class FlowerViewSet(ModelViewSet):
     #     if self.action in ["create", "update", "partial_update"]:
     #         return CatalogItemCreateSerializer
     #     return PlantSerializer
-    
+    def get_queryset(self):
+        return Flower.objects.prefetch_related('flower_images').all()
     def list(self, request, *args, **kwargs):
         """Retrive all the flowers list"""
         return super().list(request, *args, **kwargs)
