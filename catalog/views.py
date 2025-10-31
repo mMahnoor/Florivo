@@ -13,6 +13,11 @@ from api.permissions import IsSellerOrAdminOrReadOnly
 # Create your views here.
 
 class CategoryViewSet(ModelViewSet):
+    """
+    Manage catalog categories:
+    - View all flower categories
+    - Only admin and seller can create, update or delete categories
+    """
     queryset = Category.objects.annotate(
         flower_count=Count('flowers')).all()
     serializer_class = CategorySerializer
@@ -20,9 +25,9 @@ class CategoryViewSet(ModelViewSet):
 
 class FlowerViewSet(ModelViewSet):
     """
-    API endpoint for managing plants catalog
+    API endpoint for managing catalog
      - Allows authenticated admin to create, update, and delete a catalog item
-     - Allows users to browse and filter plants
+     - Allows users to browse and filter catalog item
      - Support searching by name, description, and category
      - Support ordering by price and name
     """
@@ -45,7 +50,7 @@ class FlowerViewSet(ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        """Only authenticated seller can create a new catalog item"""
+        """Only authenticated seller or admin can create a new catalog item"""
         return super().create(request, *args, **kwargs)
     
     def perform_create(self, serializer):
